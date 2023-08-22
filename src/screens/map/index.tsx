@@ -5,6 +5,7 @@
  * @format
  */
 
+import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import {
   Button,
@@ -23,6 +24,7 @@ const MyCustomMarker = () => {
   const [totalSelected, setTotalSelected] = useState(1);
   const quantityAvailable = 8;
   const price = 4.99;
+  const navigation = useNavigation();
 
   const onToggleOpen = () => {
     setTotalSelected(1);
@@ -40,6 +42,7 @@ const MyCustomMarker = () => {
   };
 
   const onBuy = () => {
+    navigation.navigate('PAYMENT_SCREEN');
     console.log('buy');
   };
 
