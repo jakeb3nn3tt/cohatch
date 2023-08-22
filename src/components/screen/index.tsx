@@ -8,7 +8,7 @@ const Screen = ({
   horizontalScoll,
   safeAreaStyle,
   style,
-  statusBarStyle = 'light-content',
+  statusBarStyle = 'dark-content',
   // headerComponent: Header,
   children,
 }: Props) => {

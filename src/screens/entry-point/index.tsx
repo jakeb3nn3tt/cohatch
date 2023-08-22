@@ -1,8 +1,15 @@
 import React from 'react';
-import CostumerStack from '../../navigation/costumer-stack';
+import SellerProducts from '../seller-products';
 
 const EntryPoint = () => {
-  return <CostumerStack />;
+  // if (!user) {
+  //   return <LoginStack />;
+  // }
+  // if (user.role === UserRole.COSTUMER) {
+  //   return <CostumerStack />;
+  // }
+  // return <SellerTabs />;
+  return <SellerProducts />;
 };
 
 export default React.memo(EntryPoint);
