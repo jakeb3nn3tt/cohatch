@@ -1,17 +1,19 @@
 import { CardField, useStripe } from '@stripe/stripe-react-native';
 import React from 'react';
 import { Button, SafeAreaView } from 'react-native';
-import { getClientSecret } from '../../services/stripe';
 
 const PaymentScreen = () => {
   const { confirmPayment } = useStripe();
 
   const onConfirmPayment = async () => {
     try {
-      const clientSecret = await getClientSecret();
-      const result = await confirmPayment(clientSecret, {
-        paymentMethodType: 'Card',
-      });
+      // const clientSecret = await getClientSecret();
+      const result = await confirmPayment(
+        'pi_3Ni27KBf6uI5vbOW18BqYQdz_secret_wr0GgzRMeVXz3EqQSw85BB2gJ',
+        {
+          paymentMethodType: 'Card',
+        },
+      );
       console.log('result', result);
     } catch (error) {
       console.log('error', error);
