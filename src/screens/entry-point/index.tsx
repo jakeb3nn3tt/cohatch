@@ -1,5 +1,5 @@
 import React from 'react';
-import CostumerStack from '../../navigation/costumer-stack';
+import SellerTabs from '../../navigation/seller-tabs';
 
 const EntryPoint = () => {
   // if (!user) {
@@ -8,9 +8,8 @@ const EntryPoint = () => {
   // if (user.role === UserRole.COSTUMER) {
   //   return <CostumerStack />;
   // }
-  // return <SellerTabs />;
+  return <SellerTabs />;
   // return <SellerProducts />;
-  return <CostumerStack />;
 };
 
 export default React.memo(EntryPoint);
