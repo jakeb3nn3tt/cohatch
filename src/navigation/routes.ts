@@ -5,11 +5,13 @@ export type CostumerStackParamList = {
   MAP: undefined;
   CHECKOUT: undefined;
   PAYMENT_SCREEN: undefined;
+  COSTUMER_SETTINGS_STACK: undefined;
 };
 
 export type SellerBottomTabParamList = {
   SELLER_FEED: undefined;
   SELLER_PRODUCTS: undefined;
+  SELLER_SETTINGS_STACK: undefined;
 };
 
 export type LoginStackParamList = {
@@ -21,4 +23,13 @@ export type LoginStackParamList = {
 export type SellerProductsStackParamList = {
   SELLER_PRODUCTS_LIST: undefined;
   SELLER_NEW_PRODUCT: { product?: Product };
+};
+
+export type SellerSettingsStackParamList = {
+  SETTINGS: undefined;
+};
+
+export type CostumerSettingsStackParamList = {
+  SETTINGS: undefined;
+  CREDIT_CARD_INFORMATION: undefined;
 };

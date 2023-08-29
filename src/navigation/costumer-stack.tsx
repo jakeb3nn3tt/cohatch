@@ -3,6 +3,7 @@ import React from 'react';
 import Map from '../screens/map';
 import PaymentScreen from '../screens/payment-screen';
 import { NO_HEADER_OPTION } from './constants';
+import CostumerSettingsStack from './costumer-settings-stack';
 import { CostumerStackParamList } from './routes';
 
 const Stack = createNativeStackNavigator<CostumerStackParamList>();
@@ -13,6 +14,11 @@ const CostumerStack = () => (
     <Stack.Screen
       name="PAYMENT_SCREEN"
       component={PaymentScreen}
+      options={NO_HEADER_OPTION}
+    />
+    <Stack.Screen
+      name="COSTUMER_SETTINGS_STACK"
+      component={CostumerSettingsStack}
       options={NO_HEADER_OPTION}
     />
   </Stack.Navigator>

@@ -4,6 +4,7 @@ import SellerFeed from '../screens/seller-feed';
 import { NO_HEADER_OPTION } from './constants';
 import { SellerBottomTabParamList } from './routes';
 import SellerProductsStack from './seller-products-stack';
+import SellerSettingsStack from './seller-settings-stack';
 
 const Tab = createBottomTabNavigator<SellerBottomTabParamList>();
 
@@ -24,6 +25,14 @@ const BottomTab = () => {
         options={{
           ...NO_HEADER_OPTION,
           title: 'Products',
+        }}
+      />
+      <Tab.Screen
+        name="SELLER_SETTINGS_STACK"
+        component={SellerSettingsStack}
+        options={{
+          ...NO_HEADER_OPTION,
+          title: 'Settings',
         }}
       />
     </Tab.Navigator>

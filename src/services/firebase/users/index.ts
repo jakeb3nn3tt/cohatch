@@ -1,7 +1,9 @@
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import { setUser } from '../../../redux/reducers/user';
 import { store } from '../../../redux/store';
 import { User, UserRole } from '../../../types/user';
+import { removeUndefined } from '../../../utils/products';
 
 const usersCollection = firestore().collection('users');
 
@@ -59,7 +61,7 @@ export const login = async (email: string, password: string) => {
   return { ...userSnapshot.data(), password } as User;
 };
 
-export const signOutUser = async () => {
+export const signOut = async () => {
   try {
     // await deleteUserFCMToken();
     await auth().signOut();
@@ -79,4 +81,11 @@ export const deleteUserAccount = async (user: User) => {
 
 export const sendResetPasswordEmail = async (email: string) => {
   await auth().sendPasswordResetEmail(email);
+};
+
+export const saveUser = async (user: User, saveOnReducer = true) => {
+  await usersCollection.doc(user.id).set(removeUndefined(user));
+  if (saveOnReducer) {
+    store.dispatch(setUser(user));
+  }
 };

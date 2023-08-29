@@ -1,21 +1,21 @@
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Button, View } from 'react-native';
-import { useDispatch } from 'react-redux';
-import { clearUser } from '../../redux/reducers/user';
+import { CostumerStackParamList } from '../../navigation/routes';
 import { useStyles } from './styles';
 
 const MapLayover = () => {
   const styles = useStyles();
-  const dispatch = useDispatch();
-
-  const onLogout = () => {
-    dispatch(clearUser(null));
-  };
+  const navigation =
+    useNavigation<NavigationProp<CostumerStackParamList, 'MAP'>>();
 
   return (
     <>
       <View style={styles.logoutContainer}>
-        <Button title="Logout" onPress={onLogout} />
+        <Button
+          title="Settings"
+          onPress={() => navigation.navigate('COSTUMER_SETTINGS_STACK')}
+        />
       </View>
     </>
   );

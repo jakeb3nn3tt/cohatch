@@ -7,6 +7,7 @@
     "ios": "react-native run-ios --simulator 'iPhone 14'",
     "lint": "eslint .",
     "start": "react-native start",
+    "start:reset": "npx react-native start --reset-cache",
     "test": "jest"
   },
   "dependencies": {
@@ -35,6 +36,7 @@
     "@react-native/eslint-config": "^0.72.2",
     "@react-native/metro-config": "^0.72.11",
     "@tsconfig/react-native": "^3.0.0",
+    "@types/lodash": "^4.14.197",
     "@types/react": "^18.0.24",
     "@types/react-test-renderer": "^18.0.0",
     "babel-jest": "^29.2.1",

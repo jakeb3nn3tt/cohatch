@@ -18,7 +18,7 @@ export const saveProduct = async (product: Product) => {
   const productToSave = removeUndefined(product) as Product;
   const doc = productsCollection.doc(productToSave.id);
   productToSave.id = doc.id;
-  doc.set(productToSave);
+  await doc.set(productToSave);
   return doc.id;
 };
 
