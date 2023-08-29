@@ -1,7 +1,12 @@
-import React from 'react';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import _ from 'lodash';
+import React, { useState } from 'react';
 import { Button, Image, View } from 'react-native';
 import Eggs from '../../assets/images/eggs.png';
 import Text from '../../components/text';
+import { SellerProductsStackParamList } from '../../navigation/routes';
+import { saveProduct } from '../../services/firebase/products';
+import { loadSellerProducts } from '../../services/loaders/seller';
 import { Product } from '../../types/product';
 import { useStyles } from './styles';
 
@@ -10,7 +15,27 @@ type Props = {
 };
 
 const SellerProductListItem = ({ product }: Props) => {
+  const [loading, setLoading] = useState(false);
   const styles = useStyles();
+  const isListed = product.isListed;
+  const navigation =
+    useNavigation<
+      NavigationProp<SellerProductsStackParamList, 'SELLER_PRODUCTS_LIST'>
+    >();
+
+  const onList = async () => {
+    setLoading(true);
+    try {
+      const newProduct = _.cloneDeep(product);
+      newProduct.isListed = !isListed;
+      await saveProduct(newProduct);
+      await loadSellerProducts();
+    } catch (error) {
+      console.log('error', error);
+    }
+    setLoading(false);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
@@ -43,10 +68,20 @@ const SellerProductListItem = ({ product }: Props) => {
       </View>
       <View style={styles.footerContainer}>
         <View style={{ flex: 1 }}>
-          <Button title="List" />
+          <Button
+            title={isListed ? 'Unlist' : 'List'}
+            onPress={onList}
+            disabled={loading}
+          />
         </View>
         <View style={{ flex: 1 }}>
-          <Button title="Delete" color="red" />
+          <Button
+            title="Edit"
+            disabled={loading}
+            onPress={() =>
+              navigation.navigate('SELLER_NEW_PRODUCT', { product })
+            }
+          />
         </View>
       </View>
     </View>

@@ -1,6 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { Button } from 'react-native';
+import { useDispatch } from 'react-redux';
 import Screen from '../../components/screen';
 import Text from '../../components/text';
+import { clearUser } from '../../redux/reducers/user';
 import { loadSellerNotificationAndActivity } from '../../services/loaders/seller';
 
 const SellerFeed = () => {
@@ -9,6 +12,7 @@ const SellerFeed = () => {
   const [notificationData, setNotificationData] = useState();
   const [loading, setLoading] = useState(false);
   const data = useMemo(() => {}, []);
+  const dispatch = useDispatch();
 
   const loadData = async () => {
     setLoading(true);
@@ -24,9 +28,14 @@ const SellerFeed = () => {
     loadData();
   }, []);
 
+  const onLogout = () => {
+    dispatch(clearUser(null));
+  };
+
   return (
     <Screen>
       <Text>Seller Feed with notifications and perhaps user activities</Text>
+      <Button title="Logout" onPress={onLogout} />
     </Screen>
   );
 };

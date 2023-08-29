@@ -5,13 +5,14 @@ export type ProductPrice = {
 };
 
 export type Product = {
-  id: string;
+  id?: string;
   price: ProductPrice;
   title: string;
   description?: string;
   quantityTotal: number;
   quantityAvailable: number;
   quantityUnit: string;
+  sellerId?: string;
   image?: string;
   isListed?: boolean;
 };

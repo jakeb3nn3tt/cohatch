@@ -13,6 +13,7 @@ export const useStyles = () => {
           paddingBottom: 5,
           borderRadius: 5,
           borderWidth: 1,
+          marginBottom: 10,
         },
         headerContainer: {
           flexDirection: 'row',

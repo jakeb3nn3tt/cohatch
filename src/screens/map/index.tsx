@@ -17,6 +17,7 @@ import {
 } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import Eggs from '../../assets/images/eggs.png';
+import MapLayover from '../../components/map-layover';
 import Text from '../../components/text';
 
 const MyCustomMarker = () => {
@@ -129,6 +130,7 @@ const Map = (): JSX.Element => {
           fillColor="#00000011"
         /> */}
       </MapView>
+      <MapLayover />
     </View>
   );
 };

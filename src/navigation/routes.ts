@@ -1,3 +1,5 @@
+import { Product } from '../types/product';
+
 export type CostumerStackParamList = {
   HOME_COSTUMER: undefined;
   MAP: undefined;
@@ -14,4 +16,9 @@ export type LoginStackParamList = {
   LOGIN: undefined;
   SELLER_SIGNUP: undefined;
   COSTUMER_SIGNUP: undefined;
+};
+
+export type SellerProductsStackParamList = {
+  SELLER_PRODUCTS_LIST: undefined;
+  SELLER_NEW_PRODUCT: { product?: Product };
 };

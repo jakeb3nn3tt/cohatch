@@ -1,9 +1,9 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import SellerFeed from '../screens/seller-feed';
-import SellerProducts from '../screens/seller-products';
 import { NO_HEADER_OPTION } from './constants';
 import { SellerBottomTabParamList } from './routes';
+import SellerProductsStack from './seller-products-stack';
 
 const Tab = createBottomTabNavigator<SellerBottomTabParamList>();
 
@@ -20,7 +20,7 @@ const BottomTab = () => {
       />
       <Tab.Screen
         name="SELLER_PRODUCTS"
-        component={SellerProducts}
+        component={SellerProductsStack}
         options={{
           ...NO_HEADER_OPTION,
           title: 'Products',
