@@ -1,49 +1,98 @@
-import { CardField, useStripe } from '@stripe/stripe-react-native';
-import React from 'react';
-import { Button, SafeAreaView } from 'react-native';
+import { CardField } from '@stripe/stripe-react-native';
+import _ from 'lodash';
+import React, { useMemo, useState } from 'react';
+import { Button, SafeAreaView, Switch, View } from 'react-native';
+import DropDownPicker, { ValueType } from 'react-native-dropdown-picker';
+import { useSelector } from 'react-redux';
+import Text from '../../components/text';
+import { RootState } from '../../redux/store';
+import { CreditCard } from '../../types/user';
+import { addCreditCard } from '../../utils/user';
+import { useStyles } from './styles';
 
 const PaymentScreen = () => {
-  const { confirmPayment } = useStripe();
+  const user = useSelector((state: RootState) => state.user);
+  const [loading, setLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [saveCard, setSaveCard] = useState(false);
+  const [addingCard, setAddingCard] = useState<CreditCard>();
+  const [selectedCreditCard, setSelectedCreditCard] =
+    useState<ValueType | null>(null);
+  const dropdownCards = useMemo(() => {
+    return (
+      user?.creditCards?.map((c, index) => ({
+        label: `***** ${c.last4}`,
+        value: index,
+      })) || []
+    );
+  }, [user]);
+  const styles = useStyles();
+  const hasCards = !!dropdownCards.length;
+  const paymentDisabled =
+    loading ||
+    (hasCards && _.isNil(selectedCreditCard)) ||
+    (!hasCards && !addingCard?.complete);
 
   const onConfirmPayment = async () => {
+    setLoading(true);
     try {
-      // const clientSecret = await getClientSecret();
-      const result = await confirmPayment(
-        'pi_3Ni27KBf6uI5vbOW18BqYQdz_secret_wr0GgzRMeVXz3EqQSw85BB2gJ',
-        {
-          paymentMethodType: 'Card',
-        },
-      );
-      console.log('result', result);
+      let selectedCard = null;
+      if (saveCard && addingCard?.complete) {
+        await addCreditCard(addingCard);
+        setSaveCard(false);
+        setAddingCard(undefined);
+        selectedCard = addingCard;
+      } else {
+        selectedCard = user?.creditCards?.[selectedCreditCard as number];
+      }
+      console.log('selectedCard', selectedCard);
+      // if (selectedCard) {
+      //   const { data } = await getClientSecret({ amount: 1234 });
+      //   const result = await confirmPayment(data, {
+      //     paymentMethodType: 'Card',
+      //   });
+      //   console.log('result', result);
+      // } else {
+      //   console.log('Select a car');
+      // }
     } catch (error) {
       console.log('error', error);
     }
+    setLoading(false);
   };
 
   return (
     <SafeAreaView>
-      <CardField
-        postalCodeEnabled={false}
-        placeholders={{
-          number: '4242 4242 4242 4242',
-        }}
-        cardStyle={{
-          backgroundColor: '#FFFFFF',
-          textColor: '#000000',
-        }}
-        style={{
-          width: '100%',
-          height: 50,
-          marginVertical: 30,
-        }}
-        onCardChange={cardDetails => {
-          console.log('cardDetails', cardDetails);
-        }}
-        onFocus={focusedField => {
-          console.log('focusField', focusedField);
-        }}
+      {!hasCards && (
+        <View>
+          <CardField
+            postalCodeEnabled={false}
+            style={styles.cardFieldContainer}
+            onCardChange={setAddingCard}
+            autofocus
+          />
+          <View>
+            <Text>Save card for future payments</Text>
+            <Switch value={saveCard} onValueChange={setSaveCard} />
+          </View>
+        </View>
+      )}
+      {!!hasCards && (
+        <DropDownPicker
+          multiple={false}
+          open={isOpen}
+          setOpen={setIsOpen}
+          value={selectedCreditCard}
+          setValue={setSelectedCreditCard}
+          items={dropdownCards}
+          placeholder="Select a credit card"
+        />
+      )}
+      <Button
+        title="Pay"
+        onPress={onConfirmPayment}
+        disabled={paymentDisabled}
       />
-      <Button title="Pay" onPress={onConfirmPayment} />
     </SafeAreaView>
   );
 };

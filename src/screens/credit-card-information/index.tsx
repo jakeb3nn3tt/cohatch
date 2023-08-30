@@ -10,6 +10,7 @@ import Text from '../../components/text';
 import { RootState } from '../../redux/store';
 import { saveUser } from '../../services/firebase/users';
 import { CreditCard, User } from '../../types/user';
+import { addCreditCard } from '../../utils/user';
 import { useStyles } from './styles';
 
 const CreditCardInformation = () => {
@@ -36,13 +37,7 @@ const CreditCardInformation = () => {
     setLoading(true);
     try {
       if (addingCard?.complete) {
-        const newUser = _.cloneDeep(user) as User;
-        if (!newUser.creditCards?.length) {
-          newUser.creditCards = [addingCard];
-        } else {
-          newUser.creditCards?.push(addingCard);
-        }
-        await saveUser(newUser);
+        await addCreditCard(addingCard);
         setAddingCard(undefined);
         setShowModal(false);
       }

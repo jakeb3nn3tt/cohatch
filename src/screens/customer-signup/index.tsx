@@ -9,7 +9,7 @@ import { UserRole } from '../../types/user';
 
 type Props = NativeStackScreenProps<LoginStackParamList, 'COSTUMER_SIGNUP'>;
 
-const CostumerSignup = ({ navigation }: Props) => {
+const CustomerSignup = ({ navigation }: Props) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -28,7 +28,7 @@ const CostumerSignup = ({ navigation }: Props) => {
 
   return (
     <Screen>
-      <Text>Costumer Signup</Text>
+      <Text>Customer Signup</Text>
       <View>
         <Text>Name</Text>
         <TextInput value={name} onChangeText={setName} />
@@ -55,4 +55,4 @@ const CostumerSignup = ({ navigation }: Props) => {
   );
 };
 
-export default React.memo(CostumerSignup);
+export default React.memo(CustomerSignup);

@@ -7,7 +7,7 @@ import Screen from '../../components/screen';
 import Section from '../../components/section';
 import Text from '../../components/text';
 import {
-  CostumerSettingsStackParamList,
+  CustomerSettingsStackParamList,
   SellerSettingsStackParamList,
 } from '../../navigation/routes';
 import { RootState } from '../../redux/store';
@@ -15,7 +15,7 @@ import { UserRole } from '../../types/user';
 import { signOutUser } from '../../utils/user';
 
 type Props = NativeStackScreenProps<
-  CostumerSettingsStackParamList & SellerSettingsStackParamList,
+  CustomerSettingsStackParamList & SellerSettingsStackParamList,
   'SETTINGS'
 >;
 

@@ -1,9 +1,12 @@
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import functions from '@react-native-firebase/functions';
 import { setUser } from '../../../redux/reducers/user';
 import { store } from '../../../redux/store';
 import { User, UserRole } from '../../../types/user';
 import { removeUndefined } from '../../../utils/products';
+
+const createStripeCustomer = functions().httpsCallable('createStripeCustomer');
 
 const usersCollection = firestore().collection('users');
 
@@ -13,6 +16,7 @@ export const createNewAccount = async (
   password: string,
   role: UserRole,
 ) => {
+  const { data: costumerId } = await createStripeCustomer();
   const newAuthUser = await auth().createUserWithEmailAndPassword(
     email,
     password,
@@ -23,6 +27,7 @@ export const createNewAccount = async (
     email,
     name,
     role,
+    stripeId: costumerId,
   };
   await usersCollection.doc(id).set(newUser);
   // await deleteUserFCMToken();

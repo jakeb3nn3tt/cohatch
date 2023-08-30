@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import LoadingScreen from '../../components/loading-screen';
-import CostumerStack from '../../navigation/costumer-stack';
+import CustomerStack from '../../navigation/customer-stack';
 import LoginStack from '../../navigation/login-stack';
 import SellerTabs from '../../navigation/seller-tabs';
 import { RootState } from '../../redux/store';
@@ -32,7 +32,7 @@ const EntryPoint = () => {
     return <LoginStack />;
   }
   if (user.role === UserRole.COSTUMER) {
-    return <CostumerStack />;
+    return <CustomerStack />;
   }
   return <SellerTabs />;
 };

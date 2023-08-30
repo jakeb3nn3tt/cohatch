@@ -1,6 +1,6 @@
 import { Product } from '../types/product';
 
-export type CostumerStackParamList = {
+export type CustomerStackParamList = {
   HOME_COSTUMER: undefined;
   MAP: undefined;
   CHECKOUT: undefined;
@@ -29,7 +29,7 @@ export type SellerSettingsStackParamList = {
   SETTINGS: undefined;
 };
 
-export type CostumerSettingsStackParamList = {
+export type CustomerSettingsStackParamList = {
   SETTINGS: undefined;
   CREDIT_CARD_INFORMATION: undefined;
 };

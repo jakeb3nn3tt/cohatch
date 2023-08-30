@@ -3,11 +3,11 @@ import React from 'react';
 import CreditCardInformation from '../screens/credit-card-information';
 import Settings from '../screens/settings';
 import { NO_HEADER_OPTION } from './constants';
-import { CostumerSettingsStackParamList } from './routes';
+import { CustomerSettingsStackParamList } from './routes';
 
-const Stack = createNativeStackNavigator<CostumerSettingsStackParamList>();
+const Stack = createNativeStackNavigator<CustomerSettingsStackParamList>();
 
-const CostumerSettingsStack = () => (
+const CustomerSettingsStack = () => (
   <Stack.Navigator>
     <Stack.Screen
       name="SETTINGS"
@@ -22,4 +22,4 @@ const CostumerSettingsStack = () => (
   </Stack.Navigator>
 );
 
-export default React.memo(CostumerSettingsStack);
+export default React.memo(CustomerSettingsStack);

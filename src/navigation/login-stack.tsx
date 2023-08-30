@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import CostumerSignup from '../screens/costumer-signup';
+import CustomerSignup from '../screens/customer-signup';
 import Login from '../screens/login';
 import SellerSignup from '../screens/seller-signup';
 import { NO_HEADER_OPTION } from './constants';
@@ -8,7 +8,7 @@ import { LoginStackParamList } from './routes';
 
 const Stack = createNativeStackNavigator<LoginStackParamList>();
 
-const CostumerStack = () => (
+const CustomerStack = () => (
   <Stack.Navigator>
     <Stack.Screen name="LOGIN" component={Login} options={NO_HEADER_OPTION} />
     <Stack.Screen
@@ -18,10 +18,10 @@ const CostumerStack = () => (
     />
     <Stack.Screen
       name="COSTUMER_SIGNUP"
-      component={CostumerSignup}
+      component={CustomerSignup}
       options={NO_HEADER_OPTION}
     />
   </Stack.Navigator>
 );
 
-export default React.memo(CostumerStack);
+export default React.memo(CustomerStack);

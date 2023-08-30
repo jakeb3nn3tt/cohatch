@@ -3,12 +3,12 @@ import React from 'react';
 import Map from '../screens/map';
 import PaymentScreen from '../screens/payment-screen';
 import { NO_HEADER_OPTION } from './constants';
-import CostumerSettingsStack from './costumer-settings-stack';
-import { CostumerStackParamList } from './routes';
+import CustomerSettingsStack from './customer-settings-stack';
+import { CustomerStackParamList } from './routes';
 
-const Stack = createNativeStackNavigator<CostumerStackParamList>();
+const Stack = createNativeStackNavigator<CustomerStackParamList>();
 
-const CostumerStack = () => (
+const CustomerStack = () => (
   <Stack.Navigator>
     <Stack.Screen name="MAP" component={Map} options={NO_HEADER_OPTION} />
     <Stack.Screen
@@ -18,10 +18,10 @@ const CostumerStack = () => (
     />
     <Stack.Screen
       name="COSTUMER_SETTINGS_STACK"
-      component={CostumerSettingsStack}
+      component={CustomerSettingsStack}
       options={NO_HEADER_OPTION}
     />
   </Stack.Navigator>
 );
 
-export default React.memo(CostumerStack);
+export default React.memo(CustomerStack);

@@ -44,7 +44,6 @@ const MyCustomMarker = () => {
 
   const onBuy = () => {
     navigation.navigate('PAYMENT_SCREEN');
-    console.log('buy');
   };
 
   return (
