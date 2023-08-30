@@ -1,49 +1,35 @@
-import { CardField } from '@stripe/stripe-react-native';
-import _ from 'lodash';
 import React, { useState } from 'react';
 import { Button, FlatList, View } from 'react-native';
-import { useSelector } from 'react-redux';
-import CreditCardListItem from '../../components/credit-card-list-item';
-import Modal from '../../components/modal';
+import LoadingScreen from '../../components/loading-screen';
+import PaymentMethodListItem from '../../components/payment-method-list-item';
 import Screen from '../../components/screen';
 import Text from '../../components/text';
-import { RootState } from '../../redux/store';
-import { saveUser } from '../../services/firebase/users';
-import { CreditCard, User } from '../../types/user';
-import { addCreditCard } from '../../utils/user';
+import { usePayment } from '../../hooks/usePayment';
 import { useStyles } from './styles';
 
 const CreditCardInformation = () => {
-  const user = useSelector((state: RootState) => state.user);
   const [loading, setLoading] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const [addingCard, setAddingCard] = useState<CreditCard>();
+  const {
+    loadingPaymentMethods,
+    paymentMethods,
+    setupPayment,
+    deletePaymentMethod,
+  } = usePayment();
   const styles = useStyles();
-  const creditCards = user?.creditCards;
 
-  const onDeleteCard = async (deletingIndex: number) => {
+  if (loadingPaymentMethods) {
+    return <LoadingScreen />;
+  }
+
+  const onDeleteCard = async (deletingId: string) => {
     setLoading(true);
-    try {
-      const newUser = _.cloneDeep(user) as User;
-      newUser.creditCards?.splice(deletingIndex, 1);
-      await saveUser(newUser);
-    } catch (error) {
-      console.log('error', error);
-    }
+    await deletePaymentMethod(deletingId);
     setLoading(false);
   };
 
-  const onAddNewCard = async () => {
+  const onSetupPayment = async () => {
     setLoading(true);
-    try {
-      if (addingCard?.complete) {
-        await addCreditCard(addingCard);
-        setAddingCard(undefined);
-        setShowModal(false);
-      }
-    } catch (error) {
-      console.log('error', error);
-    }
+    await setupPayment();
     setLoading(false);
   };
 
@@ -52,11 +38,11 @@ const CreditCardInformation = () => {
       <Text>Credit Card Information</Text>
       <View>
         <FlatList
-          data={creditCards}
-          renderItem={({ item, index }) => (
-            <CreditCardListItem
-              creditCard={item}
-              onDelete={() => onDeleteCard(index)}
+          data={paymentMethods}
+          renderItem={({ item }) => (
+            <PaymentMethodListItem
+              paymentMethod={item}
+              onDelete={() => onDeleteCard(item.id)}
               disabled={loading}
             />
           )}
@@ -67,22 +53,7 @@ const CreditCardInformation = () => {
           }
         />
       </View>
-      <Button title="Add new card" onPress={() => setShowModal(true)} />
-      <Modal visible={showModal} onClose={() => setShowModal(false)}>
-        <View style={styles.modalView}>
-          <CardField
-            postalCodeEnabled={false}
-            style={styles.cardFieldContainer}
-            onCardChange={setAddingCard}
-            autofocus
-          />
-          <Button
-            title="Add card"
-            onPress={onAddNewCard}
-            disabled={!addingCard?.complete || loading}
-          />
-        </View>
-      </Modal>
+      <Button title="Add new card" onPress={onSetupPayment} />
     </Screen>
   );
 };

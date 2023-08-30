@@ -1,98 +1,101 @@
-import { CardField } from '@stripe/stripe-react-native';
-import _ from 'lodash';
+import functions from '@react-native-firebase/functions';
 import React, { useMemo, useState } from 'react';
-import { Button, SafeAreaView, Switch, View } from 'react-native';
+import { Button, SafeAreaView, View } from 'react-native';
 import DropDownPicker, { ValueType } from 'react-native-dropdown-picker';
 import { useSelector } from 'react-redux';
-import Text from '../../components/text';
+import LoadingScreen from '../../components/loading-screen';
 import { RootState } from '../../redux/store';
-import { CreditCard } from '../../types/user';
-import { addCreditCard } from '../../utils/user';
+// import { loadPaymentMethods } from '../../services/loaders/customer';
+import { usePayment } from '../../hooks/usePayment';
 import { useStyles } from './styles';
+
+const createPaymentIntent = functions().httpsCallable('createPaymentIntent');
+
+const addingCard = null;
 
 const PaymentScreen = () => {
   const user = useSelector((state: RootState) => state.user);
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [saveCard, setSaveCard] = useState(false);
-  const [addingCard, setAddingCard] = useState<CreditCard>();
-  const [selectedCreditCard, setSelectedCreditCard] =
+  const { paymentMethods, loadingPaymentMethods, setupPayment } = usePayment();
+  const [selectedPaymentMethodId, setSelectedPaymentMethodId] =
     useState<ValueType | null>(null);
   const dropdownCards = useMemo(() => {
     return (
-      user?.creditCards?.map((c, index) => ({
-        label: `***** ${c.last4}`,
-        value: index,
-      })) || []
+      paymentMethods
+        ?.filter(p => !!p.card)
+        .map(p => ({
+          label: `***** ${p.card.last4}`,
+          value: p.id,
+        })) || []
     );
-  }, [user]);
+  }, [paymentMethods]);
   const styles = useStyles();
   const hasCards = !!dropdownCards.length;
   const paymentDisabled =
     loading ||
-    (hasCards && _.isNil(selectedCreditCard)) ||
+    (hasCards && !selectedPaymentMethodId) ||
     (!hasCards && !addingCard?.complete);
 
   const onConfirmPayment = async () => {
     setLoading(true);
     try {
-      let selectedCard = null;
-      if (saveCard && addingCard?.complete) {
-        await addCreditCard(addingCard);
-        setSaveCard(false);
-        setAddingCard(undefined);
-        selectedCard = addingCard;
+      const selectedPaymentMethod = selectedPaymentMethodId as string;
+      if (selectedPaymentMethod) {
+        const result = await createPaymentIntent({
+          amount: 12345,
+          currency: 'usd',
+          customerId: user?.stripeId,
+          paymentMethodId: selectedPaymentMethod,
+        });
+        console.log('result.data', result.data);
       } else {
-        selectedCard = user?.creditCards?.[selectedCreditCard as number];
+        console.log('Select a payment method');
       }
-      console.log('selectedCard', selectedCard);
-      // if (selectedCard) {
-      //   const { data } = await getClientSecret({ amount: 1234 });
-      //   const result = await confirmPayment(data, {
-      //     paymentMethodType: 'Card',
-      //   });
-      //   console.log('result', result);
-      // } else {
-      //   console.log('Select a car');
-      // }
     } catch (error) {
       console.log('error', error);
     }
     setLoading(false);
   };
 
+  const onSetupPayment = async () => {
+    setLoading(true);
+    await setupPayment();
+    setLoading(false);
+  };
+
+  if (loadingPaymentMethods) {
+    return <LoadingScreen />;
+  }
+
   return (
     <SafeAreaView>
-      {!hasCards && (
-        <View>
-          <CardField
-            postalCodeEnabled={false}
-            style={styles.cardFieldContainer}
-            onCardChange={setAddingCard}
-            autofocus
-          />
+      <View>
+        {!hasCards && (
           <View>
-            <Text>Save card for future payments</Text>
-            <Switch value={saveCard} onValueChange={setSaveCard} />
+            <Button title="Add a Credit Card" onPress={onSetupPayment} />
           </View>
-        </View>
-      )}
-      {!!hasCards && (
-        <DropDownPicker
-          multiple={false}
-          open={isOpen}
-          setOpen={setIsOpen}
-          value={selectedCreditCard}
-          setValue={setSelectedCreditCard}
-          items={dropdownCards}
-          placeholder="Select a credit card"
+        )}
+        {!!hasCards && (
+          <View style={{ zIndex: 10 }}>
+            <DropDownPicker
+              multiple={false}
+              open={isOpen}
+              setOpen={setIsOpen}
+              value={selectedPaymentMethodId}
+              setValue={setSelectedPaymentMethodId}
+              items={dropdownCards}
+              placeholder="Select a credit card"
+            />
+            <Button title="Add a new Credit Card" onPress={onSetupPayment} />
+          </View>
+        )}
+        <Button
+          title="Pay"
+          onPress={onConfirmPayment}
+          disabled={paymentDisabled}
         />
-      )}
-      <Button
-        title="Pay"
-        onPress={onConfirmPayment}
-        disabled={paymentDisabled}
-      />
+      </View>
     </SafeAreaView>
   );
 };

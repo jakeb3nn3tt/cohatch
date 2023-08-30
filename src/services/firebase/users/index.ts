@@ -16,7 +16,7 @@ export const createNewAccount = async (
   password: string,
   role: UserRole,
 ) => {
-  const { data: costumerId } = await createStripeCustomer();
+  const { data: costumerId } = await createStripeCustomer({ email, name });
   const newAuthUser = await auth().createUserWithEmailAndPassword(
     email,
     password,
