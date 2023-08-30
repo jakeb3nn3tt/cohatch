@@ -33,9 +33,7 @@ const PaymentScreen = () => {
   const styles = useStyles();
   const hasCards = !!dropdownCards.length;
   const paymentDisabled =
-    loading ||
-    (hasCards && !selectedPaymentMethodId) ||
-    (!hasCards && !addingCard?.complete);
+    loading || (hasCards && !selectedPaymentMethodId) || !hasCards;
 
   const onConfirmPayment = async () => {
     setLoading(true);
