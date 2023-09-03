@@ -1,8 +1,17 @@
-
 export enum UserRole {
   SELLER = 'SELLER',
   COSTUMER = 'COSTUMER',
 }
+
+export type UserLocation = {
+  latitude: number;
+  longitude: number;
+};
+
+export type UserAddress = {
+  location?: UserLocation;
+  address?: string;
+};
 
 export type PaymentMethod = {
   billing_details: {
@@ -42,4 +51,5 @@ export type User = {
   role?: UserRole;
   name?: string;
   paymentMethods?: PaymentMethod;
+  address?: UserAddress;
 };

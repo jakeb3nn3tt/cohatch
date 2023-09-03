@@ -27,9 +27,11 @@ export type SellerProductsStackParamList = {
 
 export type SellerSettingsStackParamList = {
   SETTINGS: undefined;
+  MY_LOCATION: undefined;
 };
 
 export type CustomerSettingsStackParamList = {
   SETTINGS: undefined;
   CREDIT_CARD_INFORMATION: undefined;
+  MY_LOCATION: undefined;
 };

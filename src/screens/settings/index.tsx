@@ -55,6 +55,12 @@ const Settings = ({ navigation }: Props) => {
             </Section>
           </>
         )}
+        <Section>
+          <MenuItem
+            title="My Location"
+            onPress={() => navigation.navigate('MY_LOCATION')}
+          />
+        </Section>
       </View>
       <Button title="Logout" onPress={onSignOut} disabled={loading} />
     </Screen>

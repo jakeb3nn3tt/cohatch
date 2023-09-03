@@ -1,11 +1,13 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
 import { Button, TextInput, View } from 'react-native';
+import AddressSelector from '../../components/address-selector';
+import Modal from '../../components/modal';
 import Screen from '../../components/screen';
 import Text from '../../components/text';
 import { LoginStackParamList } from '../../navigation/routes';
 import { createNewAccount } from '../../services/firebase/users';
-import { UserRole } from '../../types/user';
+import { UserAddress, UserRole } from '../../types/user';
 
 type Props = NativeStackScreenProps<LoginStackParamList, 'COSTUMER_SIGNUP'>;
 
@@ -13,17 +15,27 @@ const CustomerSignup = ({ navigation }: Props) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [address, setAddress] = useState<UserAddress>();
+  const [modalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const onSignup = async () => {
     setLoading(true);
+    if (!address) {
+      return;
+    }
     try {
-      await createNewAccount(email, name, password, UserRole.COSTUMER);
+      await createNewAccount(email, name, password, UserRole.COSTUMER, address);
       navigation.goBack();
     } catch (error) {
       console.log('error', error);
     }
     setLoading(false);
+  };
+
+  const onChangeAddress = (newAddress: UserAddress) => {
+    setAddress(newAddress);
+    setModalOpen(false);
   };
 
   return (
@@ -50,7 +62,17 @@ const CustomerSignup = ({ navigation }: Props) => {
           autoCapitalize="none"
         />
       </View>
+      <View>
+        <Text>My Address: {address?.address}</Text>
+        <Button
+          title={address ? 'Change' : 'Select'}
+          onPress={() => setModalOpen(true)}
+        />
+      </View>
       <Button title="Signup" onPress={onSignup} disabled={loading} />
+      <Modal visible={modalOpen} onClose={() => setModalOpen(false)}>
+        <AddressSelector currentAddress={address} onChange={onChangeAddress} />
+      </Modal>
     </Screen>
   );
 };
