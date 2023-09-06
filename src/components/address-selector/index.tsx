@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button, View } from 'react-native';
+import Config from 'react-native-config';
 import Geocoder from 'react-native-geocoding';
 import MapView, { MapPressEvent, Marker } from 'react-native-maps';
 import { UserAddress, UserLocation } from '../../types/user';
@@ -7,7 +8,7 @@ import Input from '../input';
 import Text from '../text';
 import { useStyles } from './styles';
 
-Geocoder.init(Config._GEOCODER_API_KEY);
+Geocoder.init(Config.GEOCODER_API_KEY || '');
 
 type Props = {
   currentAddress?: UserAddress;
@@ -76,7 +77,19 @@ const AddressSelector = ({ currentAddress, onChange }: Props) => {
       <Text>Enter your address by tapping on the map or typing an address</Text>
       <Input label="Address" onChangeText={setAddress} value={address} />
       <Button title="Find address" onPress={onFindAddress} />
-      <MapView onPress={onMapPress} style={styles.mapContainer}>
+      <MapView
+        onPress={onMapPress}
+        style={styles.mapContainer}
+        region={
+          marker
+            ? {
+                latitude: marker.latitude,
+                longitude: marker.longitude,
+                latitudeDelta: 0.005,
+                longitudeDelta: 0.005,
+              }
+            : undefined
+        }>
         {marker && <Marker coordinate={marker} zIndex={100} />}
       </MapView>
       <Button title="Confirm Address" onPress={onConfirmAddress} />
