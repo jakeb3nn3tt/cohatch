@@ -1,47 +1,37 @@
 import functions from '@react-native-firebase/functions';
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, SafeAreaView, View } from 'react-native';
-import DropDownPicker, { ValueType } from 'react-native-dropdown-picker';
-import { useSelector } from 'react-redux';
-import LoadingScreen from '../../components/loading-screen';
-import { RootState } from '../../redux/store';
+import { ValueType } from 'react-native-dropdown-picker';
 // import { loadPaymentMethods } from '../../services/loaders/customer';
-import { usePayment } from '../../hooks/usePayment';
-import { useStyles } from './styles';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useSelector } from 'react-redux';
+import Text from '../../components/text';
+import { CustomerStackParamList } from '../../navigation/routes';
+import { RootState } from '../../redux/store';
+import { formatMoneyToStripe } from '../../utils/money';
+import PaymentMethod from './payment-method';
 
-const createPaymentIntent = functions().httpsCallable('createPaymentIntent');
+const generatePayment = functions().httpsCallable('generatePayment');
 
-const addingCard = null;
+type Props = NativeStackScreenProps<CustomerStackParamList, 'PAYMENT_SCREEN'>;
 
-const PaymentScreen = () => {
+const PaymentScreen = ({ route }: Props) => {
+  const product = route.params.product;
+  const productPrice = product.price.sellerValue;
+  const quantity = route.params.quantity;
+  const total = productPrice * quantity;
   const user = useSelector((state: RootState) => state.user);
-  const [loading, setLoading] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-  const { paymentMethods, loadingPaymentMethods, setupPayment } = usePayment();
   const [selectedPaymentMethodId, setSelectedPaymentMethodId] =
     useState<ValueType | null>(null);
-  const dropdownCards = useMemo(() => {
-    return (
-      paymentMethods
-        ?.filter(p => !!p.card)
-        .map(p => ({
-          label: `***** ${p.card.last4}`,
-          value: p.id,
-        })) || []
-    );
-  }, [paymentMethods]);
-  const styles = useStyles();
-  const hasCards = !!dropdownCards.length;
-  const paymentDisabled =
-    loading || (hasCards && !selectedPaymentMethodId) || !hasCards;
+  const [loading, setLoading] = useState(false);
 
   const onConfirmPayment = async () => {
     setLoading(true);
     try {
       const selectedPaymentMethod = selectedPaymentMethodId as string;
       if (selectedPaymentMethod) {
-        const result = await createPaymentIntent({
-          amount: 12345,
+        const result = await generatePayment({
+          amount: formatMoneyToStripe(total),
           currency: 'usd',
           customerId: user?.stripeId,
           paymentMethodId: selectedPaymentMethod,
@@ -56,44 +46,23 @@ const PaymentScreen = () => {
     setLoading(false);
   };
 
-  const onSetupPayment = async () => {
-    setLoading(true);
-    await setupPayment();
-    setLoading(false);
-  };
-
-  if (loadingPaymentMethods) {
-    return <LoadingScreen />;
-  }
-
   return (
     <SafeAreaView>
       <View>
-        {!hasCards && (
-          <View>
-            <Button title="Add a Credit Card" onPress={onSetupPayment} />
-          </View>
-        )}
-        {!!hasCards && (
-          <View style={{ zIndex: 10 }}>
-            <DropDownPicker
-              multiple={false}
-              open={isOpen}
-              setOpen={setIsOpen}
-              value={selectedPaymentMethodId}
-              setValue={setSelectedPaymentMethodId}
-              items={dropdownCards}
-              placeholder="Select a credit card"
-            />
-            <Button title="Add a new Credit Card" onPress={onSetupPayment} />
-          </View>
-        )}
-        <Button
-          title="Pay"
-          onPress={onConfirmPayment}
-          disabled={paymentDisabled}
-        />
+        <Text>Product: {product.title}</Text>
+        <Text>Quantity: {quantity}</Text>
+        <Text>Subtotal: ${total}</Text>
+        <Text>Total: ${total}</Text>
       </View>
+      <PaymentMethod
+        selectedPaymentMethodId={selectedPaymentMethodId}
+        setSelectedPaymentMethodId={setSelectedPaymentMethodId}
+      />
+      <Button
+        title="Pay"
+        onPress={onConfirmPayment}
+        disabled={!selectedPaymentMethodId || loading}
+      />
     </SafeAreaView>
   );
 };

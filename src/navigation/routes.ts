@@ -4,7 +4,7 @@ export type CustomerStackParamList = {
   HOME_COSTUMER: undefined;
   MAP: undefined;
   CHECKOUT: undefined;
-  PAYMENT_SCREEN: undefined;
+  PAYMENT_SCREEN: { product: Product; quantity: number };
   COSTUMER_SETTINGS_STACK: undefined;
 };
 
