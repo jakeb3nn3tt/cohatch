@@ -15,7 +15,8 @@ const generatePayment = functions().httpsCallable('generatePayment');
 
 type Props = NativeStackScreenProps<CustomerStackParamList, 'PAYMENT_SCREEN'>;
 
-const PaymentScreen = ({ route }: Props) => {
+const PaymentScreen = ({ route, navigation }: Props) => {
+  const seller = route.params.seller;
   const product = route.params.product;
   const productPrice = product.price.sellerValue;
   const quantity = route.params.quantity;
@@ -35,8 +36,10 @@ const PaymentScreen = ({ route }: Props) => {
           currency: 'usd',
           customerId: user?.stripeId,
           paymentMethodId: selectedPaymentMethod,
+          sellerId: seller.stripeId,
         });
         console.log('result.data', result.data);
+        navigation.goBack();
       } else {
         console.log('Select a payment method');
       }

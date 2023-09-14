@@ -26,7 +26,7 @@ const Map = ({ navigation }: Props): JSX.Element => {
   const userLocation = user?.address?.location;
 
   if (!userLocation) {
-    navigation.navigate('COSTUMER_SETTINGS_STACK', { screen: 'MY_LOCATION' });
+    navigation.reset('COSTUMER_SETTINGS_STACK', { screen: 'MY_LOCATION' });
   }
 
   const loadProducts = async () => {

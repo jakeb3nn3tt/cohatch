@@ -6,15 +6,19 @@ import LoginStack from '../../navigation/login-stack';
 import SellerTabs from '../../navigation/seller-tabs';
 import { RootState } from '../../redux/store';
 import { initialSellerLoader } from '../../services/loaders/seller';
+import { checkPaymentInfo } from '../../services/loaders/stripe-seller';
 import { UserRole } from '../../types/user';
+import StripeLoader from '../stripe-loader';
 
 const EntryPoint = () => {
   const user = useSelector((state: RootState) => state.user);
   const [loadingUser, setLoadingUser] = useState(true);
-  const loadingContent = loadingUser;
+  const [loadingStripe, setLoadingStripe] = useState(false);
+  const loadingContent = loadingUser || loadingStripe;
 
   const userLoader = useCallback(async () => {
     if (user?.role === UserRole.SELLER) {
+      await checkPaymentInfo(user.stripeId, () => setLoadingStripe(true));
       await initialSellerLoader();
     }
     setLoadingUser(false);
@@ -23,6 +27,15 @@ const EntryPoint = () => {
   useEffect(() => {
     userLoader();
   }, [userLoader]);
+
+  if (loadingStripe && user) {
+    return (
+      <StripeLoader
+        accountId={user.stripeId}
+        onFinish={() => setLoadingStripe(false)}
+      />
+    );
+  }
 
   if (loadingContent) {
     return <LoadingScreen />;

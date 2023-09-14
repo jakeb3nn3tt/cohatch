@@ -7,6 +7,7 @@ import { User, UserAddress, UserRole } from '../../../types/user';
 import { removeUndefined } from '../../../utils/products';
 
 const createStripeCustomer = functions().httpsCallable('createStripeCustomer');
+const createStripeSeller = functions().httpsCallable('createStripeSeller');
 
 const usersCollection = firestore().collection('users');
 
@@ -17,7 +18,14 @@ export const createNewAccount = async (
   role: UserRole,
   address: UserAddress,
 ) => {
-  const { data: costumerId } = await createStripeCustomer({ email, name });
+  let stripeId;
+  if (role === UserRole.COSTUMER) {
+    const { data } = await createStripeCustomer({ email, name });
+    stripeId = data;
+  } else {
+    const { data } = await createStripeSeller({ email });
+    stripeId = data;
+  }
   const newAuthUser = await auth().createUserWithEmailAndPassword(
     email,
     password,
@@ -28,7 +36,7 @@ export const createNewAccount = async (
     email,
     name,
     role,
-    stripeId: costumerId,
+    stripeId,
     address,
   };
   await usersCollection.doc(id).set(newUser);
@@ -91,8 +99,10 @@ export const sendResetPasswordEmail = async (email: string) => {
 };
 
 export const saveUser = async (user: User, saveOnReducer = true) => {
+  const password = user.password;
+  user.password = '';
   await usersCollection.doc(user.id).set(removeUndefined(user));
   if (saveOnReducer) {
-    store.dispatch(setUser(user));
+    store.dispatch(setUser({ ...user, password }));
   }
 };

@@ -19,7 +19,7 @@ const SaleComponent = ({ sale }: Props) => {
 
   return (
     <View>
-      {show && <SaleProduct product={sale.products[0]} />}
+      {show && <SaleProduct product={sale.products[0]} seller={sale.seller} />}
       <TouchableOpacity onPress={onToggleOpen} style={styles.container}>
         <Text style={styles.saleTitle}>{sale.seller.name}</Text>
       </TouchableOpacity>

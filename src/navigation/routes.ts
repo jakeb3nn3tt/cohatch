@@ -1,10 +1,11 @@
 import { Product } from '../types/product';
+import { User } from '../types/user';
 
 export type CustomerStackParamList = {
   HOME_COSTUMER: undefined;
   MAP: undefined;
   CHECKOUT: undefined;
-  PAYMENT_SCREEN: { product: Product; quantity: number };
+  PAYMENT_SCREEN: { product: Product; quantity: number; seller: User };
   COSTUMER_SETTINGS_STACK: undefined;
 };
 

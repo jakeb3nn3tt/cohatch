@@ -4,14 +4,16 @@ import { Button, Image, TouchableOpacity, View } from 'react-native';
 import Eggs from '../../assets/images/eggs.png';
 import { CustomerStackParamList } from '../../navigation/routes';
 import { Product } from '../../types/product';
+import { User } from '../../types/user';
 import Text from '../text';
 import { useStyles } from './styles';
 
 type Props = {
   product: Product;
+  seller: User;
 };
 
-const SaleProduct = ({ product }: Props) => {
+const SaleProduct = ({ product, seller }: Props) => {
   const [totalSelected, setTotalSelected] = useState(1);
   const styles = useStyles();
   const navigation =
@@ -30,7 +32,11 @@ const SaleProduct = ({ product }: Props) => {
   };
 
   const onBuy = () => {
-    navigation.navigate('PAYMENT_SCREEN', { product, quantity: totalSelected });
+    navigation.navigate('PAYMENT_SCREEN', {
+      product,
+      quantity: totalSelected,
+      seller,
+    });
   };
 
   return (
