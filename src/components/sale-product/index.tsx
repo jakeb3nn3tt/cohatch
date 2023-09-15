@@ -1,9 +1,12 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { Button, Image, TouchableOpacity, View } from 'react-native';
+import { useSelector } from 'react-redux';
 import Eggs from '../../assets/images/eggs.png';
 import { CustomerStackParamList } from '../../navigation/routes';
+import { RootState } from '../../redux/store';
 import { Product } from '../../types/product';
+import { SALE_STATUS } from '../../types/sale';
 import { User } from '../../types/user';
 import Text from '../text';
 import { useStyles } from './styles';
@@ -15,9 +18,10 @@ type Props = {
 
 const SaleProduct = ({ product, seller }: Props) => {
   const [totalSelected, setTotalSelected] = useState(1);
-  const styles = useStyles();
+  const user = useSelector((state: RootState) => state.user);
   const navigation =
     useNavigation<NavigationProp<CustomerStackParamList, 'MAP'>>();
+  const styles = useStyles();
   const quantityAvailable = product.quantityAvailable;
   const price = product.price.sellerValue;
 
@@ -31,11 +35,26 @@ const SaleProduct = ({ product, seller }: Props) => {
     });
   };
 
+  console.log('user', user);
+
   const onBuy = () => {
     navigation.navigate('PAYMENT_SCREEN', {
-      product,
-      quantity: totalSelected,
-      seller,
+      sale: {
+        customerId: user?.id || '',
+        customerAccountId: user?.stripeId || '',
+        products: [
+          {
+            id: product.id as string,
+            quantity: totalSelected,
+            title: product.title,
+            value: price,
+          },
+        ],
+        sellerAccountId: seller.stripeId,
+        sellerId: seller.id,
+        status: SALE_STATUS.CREATED,
+        _createdAt: Date.now(),
+      },
     });
   };
 

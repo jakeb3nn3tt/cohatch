@@ -1,5 +1,3 @@
-import { User } from './user';
-
 export type ProductPrice = {
   sellerValue: number;
   finalValue?: number;
@@ -17,9 +15,4 @@ export type Product = {
   sellerId?: string;
   image?: string;
   isListed?: boolean;
-};
-
-export type Sale = {
-  seller: User;
-  products: Product[];
 };
