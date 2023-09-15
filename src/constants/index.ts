@@ -1,10 +1,3 @@
-import { User, UserRole } from '../types/user';
-
-export const USER: User = {
-  id: 'afm2in4go2ngo2negona',
-  role: UserRole.SELLER,
-};
-
 export const SHADOW = {
   shadowColor: '#000',
   shadowOffset: {
@@ -12,6 +5,6 @@ export const SHADOW = {
     height: 2,
   },
   shadowOpacity: 0.25,
-  shadowRadius: 3.84,
+  shadowRadius: 4,
   elevation: 5,
 };

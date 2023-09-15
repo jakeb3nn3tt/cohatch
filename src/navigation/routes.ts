@@ -10,7 +10,7 @@ export type CustomerStackParamList = {
 };
 
 export type SellerBottomTabParamList = {
-  SELLER_FEED: undefined;
+  SELLER_SALES: undefined;
   SELLER_PRODUCTS: undefined;
   SELLER_SETTINGS_STACK: undefined;
 };
@@ -24,6 +24,11 @@ export type LoginStackParamList = {
 export type SellerProductsStackParamList = {
   SELLER_PRODUCTS_LIST: undefined;
   SELLER_NEW_PRODUCT: { product?: Product };
+};
+
+export type SellerSalesStackParamList = {
+  SELLER_SALES: undefined;
+  SELLER_SALE_DETAILS: { sale: Sale };
 };
 
 export type SellerSettingsStackParamList = {

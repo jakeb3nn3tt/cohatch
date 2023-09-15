@@ -35,8 +35,6 @@ const SaleProduct = ({ product, seller }: Props) => {
     });
   };
 
-  console.log('user', user);
-
   const onBuy = () => {
     navigation.navigate('PAYMENT_SCREEN', {
       sale: {

@@ -106,3 +106,10 @@ export const saveUser = async (user: User, saveOnReducer = true) => {
     store.dispatch(setUser({ ...user, password }));
   }
 };
+
+export const getUser = async (userId: string) => {
+  const userSnapshot = await usersCollection.doc(userId).get();
+  if (userSnapshot.exists) {
+    return userSnapshot.data() as User;
+  }
+};

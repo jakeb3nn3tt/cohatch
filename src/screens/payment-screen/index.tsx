@@ -21,8 +21,6 @@ const PaymentScreen = ({ route, navigation }: Props) => {
     useState<ValueType | null>(null);
   const [loading, setLoading] = useState(false);
 
-  console.log('selectedPaymentMethodId', selectedPaymentMethodId);
-
   const onConfirmPayment = async () => {
     setLoading(true);
     try {
