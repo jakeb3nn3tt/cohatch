@@ -5,6 +5,7 @@ import { Button, SafeAreaView, View } from 'react-native';
 import { ValueType } from 'react-native-dropdown-picker';
 import Text from '../../components/text';
 import { CustomerStackParamList } from '../../navigation/routes';
+import { KnownError, handleError } from '../../utils/error-handler';
 import PaymentMethod from './payment-method';
 
 const generatePayment = functions().httpsCallable('generatePayment');
@@ -31,13 +32,17 @@ const PaymentScreen = ({ route, navigation }: Props) => {
           total,
           paymentMethodId: selectedPaymentMethodId,
         });
-        console.log('result.data', result.data);
+        const data = result.data;
+        console.log('data', data);
+        if (data?.status !== 'succeeded' && data.code) {
+          throw new KnownError(data.code, undefined, data.decline_code);
+        }
         navigation.goBack();
       } else {
         console.log('Select a payment method');
       }
     } catch (error) {
-      console.log('error', error);
+      handleError(error);
     }
     setLoading(false);
   };

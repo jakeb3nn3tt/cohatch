@@ -14,6 +14,7 @@ const CreditCardInformation = () => {
     paymentMethods,
     setupPayment,
     deletePaymentMethod,
+    initializePaymentSheet,
   } = usePayment();
   const styles = useStyles();
 
@@ -30,6 +31,7 @@ const CreditCardInformation = () => {
   const onSetupPayment = async () => {
     setLoading(true);
     await setupPayment();
+    await initializePaymentSheet();
     setLoading(false);
   };
 

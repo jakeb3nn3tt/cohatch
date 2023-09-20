@@ -41,7 +41,7 @@ const PaymentMethod = ({
   }
 
   return (
-    <View>
+    <View style={styles.container}>
       <Text style={styles.paymentText}>Payment</Text>
       <View>
         {!hasCards && (

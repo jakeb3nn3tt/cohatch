@@ -44,6 +44,7 @@ export const fetchNearSales = async () => {
   // need to redo this query
   const productsSnapshot = await productsCollection
     .where('sellerId', 'in', sellersIds)
+    .where('quantityAvailable', '>', 0)
     .get();
   const products = productsSnapshot.docs.map(doc => doc.data() as Product);
   return sellersFiltered.map(doc => {

@@ -107,5 +107,6 @@ export const usePayment = (props?: Props) => {
     setupPayment,
     getPaymentMethods,
     deletePaymentMethod,
+    initializePaymentSheet,
   };
 };

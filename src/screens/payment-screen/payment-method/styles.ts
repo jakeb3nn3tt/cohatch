@@ -5,6 +5,9 @@ export const useStyles = () => {
   const styles = useMemo(
     () =>
       StyleSheet.create({
+        container: {
+          zIndex: 99,
+        },
         paymentText: {
           marginTop: 20,
           marginBottom: 10,
