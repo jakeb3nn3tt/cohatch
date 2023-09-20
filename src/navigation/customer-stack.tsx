@@ -3,6 +3,7 @@ import React from 'react';
 import Map from '../screens/map';
 import PaymentScreen from '../screens/payment-screen';
 import { NO_HEADER_OPTION } from './constants';
+import CustomerOrdersStack from './customer-orders-stack';
 import CustomerSettingsStack from './customer-settings-stack';
 import { CustomerStackParamList } from './routes';
 
@@ -19,6 +20,11 @@ const CustomerStack = () => (
     <Stack.Screen
       name="COSTUMER_SETTINGS_STACK"
       component={CustomerSettingsStack}
+      options={NO_HEADER_OPTION}
+    />
+    <Stack.Screen
+      name="COSTUMER_ORDERS_STACK"
+      component={CustomerOrdersStack}
       options={NO_HEADER_OPTION}
     />
   </Stack.Navigator>

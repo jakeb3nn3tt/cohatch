@@ -1,7 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
 import { Button, TextInput, View } from 'react-native';
-import Config from 'react-native-config';
 import { useDispatch } from 'react-redux';
 import Screen from '../../components/screen';
 import Text from '../../components/text';
@@ -58,7 +57,6 @@ const Login = ({ navigation }: Props) => {
         title="I wanna sell"
         onPress={() => navigation.navigate('SELLER_SIGNUP')}
       />
-      <Text>This is a {Config.ENV} environment</Text>
     </Screen>
   );
 };

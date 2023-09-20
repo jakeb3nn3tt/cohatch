@@ -6,16 +6,19 @@ export const useStyles = () => {
   const styles = useMemo(
     () =>
       StyleSheet.create({
-        container: {
-          marginTop: 10,
-          padding: 10,
-          backgroundColor: '#FFF',
-          borderRadius: 8,
-          ...SHADOW,
+        sectionHeader: {
+          margin: 5,
+          fontSize: 14,
+          fontWeight: 'bold',
         },
-        infoContainer: {
+        productContainer: {
           flexDirection: 'row',
           justifyContent: 'space-between',
+          backgroundColor: '#FFF',
+          padding: 10,
+          margin: 5,
+          borderRadius: 5,
+          ...SHADOW,
         },
       }),
     [],

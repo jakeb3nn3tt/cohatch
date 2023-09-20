@@ -7,6 +7,7 @@ export type CustomerStackParamList = {
   CHECKOUT: undefined;
   PAYMENT_SCREEN: { sale: Sale };
   COSTUMER_SETTINGS_STACK: undefined;
+  COSTUMER_ORDERS_STACK: undefined;
 };
 
 export type SellerBottomTabParamList = {
@@ -40,4 +41,9 @@ export type CustomerSettingsStackParamList = {
   SETTINGS: undefined;
   CREDIT_CARD_INFORMATION: undefined;
   MY_LOCATION: undefined;
+};
+
+export type CustomerOrdersStackParamList = {
+  CUSTOMER_ORDERS: undefined;
+  CUSTOMER_ORDER_DETAILS: { sale: Sale };
 };

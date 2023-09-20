@@ -14,7 +14,7 @@ type Props = NativeStackScreenProps<CustomerStackParamList, 'PAYMENT_SCREEN'>;
 
 const PaymentScreen = ({ route, navigation }: Props) => {
   const sale = route.params.sale;
-  const productTitle = sale.products[0].id;
+  const productTitle = sale.products[0].title;
   const quantity = sale.products[0].quantity;
   const productPrice = sale.products[0].value;
   const total = productPrice * quantity;

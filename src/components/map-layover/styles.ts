@@ -13,6 +13,13 @@ export const useStyles = () => {
           backgroundColor: '#FFF',
           padding: 10,
         },
+        ordersContainer: {
+          position: 'absolute',
+          left: 10,
+          top: 40,
+          backgroundColor: '#FFF',
+          padding: 10,
+        },
       }),
     [],
   );

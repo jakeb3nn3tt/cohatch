@@ -17,6 +17,12 @@ const MapLayover = () => {
           onPress={() => navigation.navigate('COSTUMER_SETTINGS_STACK')}
         />
       </View>
+      <View style={styles.ordersContainer}>
+        <Button
+          title="Orders"
+          onPress={() => navigation.navigate('COSTUMER_ORDERS_STACK')}
+        />
+      </View>
     </>
   );
 };
