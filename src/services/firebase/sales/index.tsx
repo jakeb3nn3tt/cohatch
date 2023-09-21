@@ -1,7 +1,7 @@
 import firestore from '@react-native-firebase/firestore';
 import { Sale } from '../../../types/sale';
 import { removeUndefined } from '../../../utils/products';
-import { FetchSellerSalesQuery } from './types';
+import { FetchCustomerOrdersQuery, FetchSellerSalesQuery } from './types';
 
 const salesCollection = firestore().collection('sales');
 
@@ -17,4 +17,12 @@ export const fetchSellerSales = async ({ sellerId }: FetchSellerSalesQuery) => {
   const salesQuery = salesCollection.where('sellerId', '==', sellerId);
   const salesSnapshot = await salesQuery.get();
   return salesSnapshot.docs.map(doc => doc.data() as Sale);
+};
+
+export const fetchCustomerOders = async ({
+  customerId,
+}: FetchCustomerOrdersQuery) => {
+  const ordersQuery = salesCollection.where('customerId', '==', customerId);
+  const ordersSnapshot = await ordersQuery.get();
+  return ordersSnapshot.docs.map(doc => doc.data() as Sale);
 };

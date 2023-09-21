@@ -9,6 +9,7 @@ import { initialSellerLoader } from '../../services/loaders/seller';
 import { checkPaymentInfo } from '../../services/loaders/stripe-seller';
 import { UserRole } from '../../types/user';
 import StripeLoader from '../stripe-loader';
+import { initialCustomerLoader } from '../../services/loaders/customer';
 
 const EntryPoint = () => {
   const user = useSelector((state: RootState) => state.user);
@@ -20,6 +21,8 @@ const EntryPoint = () => {
     if (user?.role === UserRole.SELLER) {
       await checkPaymentInfo(user.stripeId, () => setLoadingStripe(true));
       await initialSellerLoader();
+    } else {
+      await initialCustomerLoader();
     }
     setLoadingUser(false);
   }, [user]);
