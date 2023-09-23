@@ -15,7 +15,7 @@ import SaleComponent from '../../components/sale';
 import { CustomerStackParamList } from '../../navigation/routes';
 import { RootState } from '../../redux/store';
 import { fetchNearSales } from '../../services/firebase/products';
-import { Sale } from '../../types/product';
+import { Sale } from '../../types/sale';
 
 type Props = NativeStackScreenProps<CustomerStackParamList, 'MAP'>;
 
@@ -26,7 +26,7 @@ const Map = ({ navigation }: Props): JSX.Element => {
   const userLocation = user?.address?.location;
 
   if (!userLocation) {
-    navigation.reset('COSTUMER_SETTINGS_STACK', { screen: 'MY_LOCATION' });
+    navigation.reset('CUSTOMER_SETTINGS_STACK', { screen: 'MY_LOCATION' });
   }
 
   const loadProducts = async () => {

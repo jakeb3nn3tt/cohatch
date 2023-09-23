@@ -19,7 +19,7 @@ export const createNewAccount = async (
   address: UserAddress,
 ) => {
   let stripeId;
-  if (role === UserRole.COSTUMER) {
+  if (role === UserRole.CUSTOMER) {
     const { data } = await createStripeCustomer({ email, name });
     stripeId = data;
   } else {

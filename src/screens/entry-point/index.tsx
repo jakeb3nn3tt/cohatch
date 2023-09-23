@@ -5,11 +5,11 @@ import CustomerStack from '../../navigation/customer-stack';
 import LoginStack from '../../navigation/login-stack';
 import SellerTabs from '../../navigation/seller-tabs';
 import { RootState } from '../../redux/store';
+import { initialCustomerLoader } from '../../services/loaders/customer';
 import { initialSellerLoader } from '../../services/loaders/seller';
 import { checkPaymentInfo } from '../../services/loaders/stripe-seller';
 import { UserRole } from '../../types/user';
 import StripeLoader from '../stripe-loader';
-import { initialCustomerLoader } from '../../services/loaders/customer';
 
 const EntryPoint = () => {
   const user = useSelector((state: RootState) => state.user);
@@ -47,7 +47,7 @@ const EntryPoint = () => {
   if (!user) {
     return <LoginStack />;
   }
-  if (user.role === UserRole.COSTUMER) {
+  if (user.role === UserRole.CUSTOMER) {
     return <CustomerStack />;
   }
   return <SellerTabs />;

@@ -2,12 +2,12 @@ import { Product } from '../types/product';
 import { Sale } from '../types/sale';
 
 export type CustomerStackParamList = {
-  HOME_COSTUMER: undefined;
+  HOME_CUSTOMER: undefined;
   MAP: undefined;
   CHECKOUT: undefined;
   PAYMENT_SCREEN: { sale: Sale };
-  COSTUMER_SETTINGS_STACK: undefined;
-  COSTUMER_ORDERS_STACK: undefined;
+  CUSTOMER_SETTINGS_STACK: undefined;
+  CUSTOMER_ORDERS_STACK: undefined;
 };
 
 export type SellerBottomTabParamList = {
@@ -19,7 +19,7 @@ export type SellerBottomTabParamList = {
 export type LoginStackParamList = {
   LOGIN: undefined;
   SELLER_SIGNUP: undefined;
-  COSTUMER_SIGNUP: undefined;
+  CUSTOMER_SIGNUP: undefined;
 };
 
 export type SellerProductsStackParamList = {

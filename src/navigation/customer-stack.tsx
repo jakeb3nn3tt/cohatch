@@ -18,12 +18,12 @@ const CustomerStack = () => (
       options={NO_HEADER_OPTION}
     />
     <Stack.Screen
-      name="COSTUMER_SETTINGS_STACK"
+      name="CUSTOMER_SETTINGS_STACK"
       component={CustomerSettingsStack}
       options={NO_HEADER_OPTION}
     />
     <Stack.Screen
-      name="COSTUMER_ORDERS_STACK"
+      name="CUSTOMER_ORDERS_STACK"
       component={CustomerOrdersStack}
       options={NO_HEADER_OPTION}
     />

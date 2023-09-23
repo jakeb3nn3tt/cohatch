@@ -17,7 +17,7 @@ const CustomerStack = () => (
       options={NO_HEADER_OPTION}
     />
     <Stack.Screen
-      name="COSTUMER_SIGNUP"
+      name="CUSTOMER_SIGNUP"
       component={CustomerSignup}
       options={NO_HEADER_OPTION}
     />

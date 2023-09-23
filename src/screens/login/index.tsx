@@ -51,7 +51,7 @@ const Login = ({ navigation }: Props) => {
       <Text>Sign up</Text>
       <Button
         title="I wanna buy"
-        onPress={() => navigation.navigate('COSTUMER_SIGNUP')}
+        onPress={() => navigation.navigate('CUSTOMER_SIGNUP')}
       />
       <Button
         title="I wanna sell"

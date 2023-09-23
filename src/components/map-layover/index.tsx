@@ -14,13 +14,13 @@ const MapLayover = () => {
       <View style={styles.logoutContainer}>
         <Button
           title="Settings"
-          onPress={() => navigation.navigate('COSTUMER_SETTINGS_STACK')}
+          onPress={() => navigation.navigate('CUSTOMER_SETTINGS_STACK')}
         />
       </View>
       <View style={styles.ordersContainer}>
         <Button
           title="Orders"
-          onPress={() => navigation.navigate('COSTUMER_ORDERS_STACK')}
+          onPress={() => navigation.navigate('CUSTOMER_ORDERS_STACK')}
         />
       </View>
     </>

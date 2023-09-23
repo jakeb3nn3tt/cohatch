@@ -9,7 +9,7 @@ import { LoginStackParamList } from '../../navigation/routes';
 import { createNewAccount } from '../../services/firebase/users';
 import { UserAddress, UserRole } from '../../types/user';
 
-type Props = NativeStackScreenProps<LoginStackParamList, 'COSTUMER_SIGNUP'>;
+type Props = NativeStackScreenProps<LoginStackParamList, 'CUSTOMER_SIGNUP'>;
 
 const CustomerSignup = ({ navigation }: Props) => {
   const [name, setName] = useState('');
@@ -25,7 +25,7 @@ const CustomerSignup = ({ navigation }: Props) => {
       return;
     }
     try {
-      await createNewAccount(email, name, password, UserRole.COSTUMER, address);
+      await createNewAccount(email, name, password, UserRole.CUSTOMER, address);
       navigation.goBack();
     } catch (error) {
       console.log('error', error);

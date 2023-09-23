@@ -1,6 +1,6 @@
 export enum UserRole {
   SELLER = 'SELLER',
-  COSTUMER = 'COSTUMER',
+  CUSTOMER = 'CUSTOMER',
 }
 
 export type UserLocation = {
@@ -50,6 +50,5 @@ export type User = {
   password: string;
   role?: UserRole;
   name?: string;
-  paymentMethods?: PaymentMethod;
   address?: UserAddress;
 };
