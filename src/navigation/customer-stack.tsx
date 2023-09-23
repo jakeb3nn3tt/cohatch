@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import Map from '../screens/map';
 import PaymentScreen from '../screens/payment-screen';
+import Search from '../screens/search';
 import { NO_HEADER_OPTION } from './constants';
 import CustomerOrdersStack from './customer-orders-stack';
 import CustomerSettingsStack from './customer-settings-stack';
@@ -27,6 +28,7 @@ const CustomerStack = () => (
       component={CustomerOrdersStack}
       options={NO_HEADER_OPTION}
     />
+    <Stack.Screen name="SEARCH" component={Search} options={NO_HEADER_OPTION} />
   </Stack.Navigator>
 );
 

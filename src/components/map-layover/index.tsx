@@ -1,6 +1,6 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { Button, View } from 'react-native';
+import { Button, SafeAreaView, View } from 'react-native';
 import { CustomerStackParamList } from '../../navigation/routes';
 import { useStyles } from './styles';
 
@@ -11,18 +11,23 @@ const MapLayover = () => {
 
   return (
     <>
-      <View style={styles.logoutContainer}>
-        <Button
-          title="Settings"
-          onPress={() => navigation.navigate('CUSTOMER_SETTINGS_STACK')}
-        />
-      </View>
-      <View style={styles.ordersContainer}>
-        <Button
-          title="Orders"
-          onPress={() => navigation.navigate('CUSTOMER_ORDERS_STACK')}
-        />
-      </View>
+      <SafeAreaView style={styles.topContainer}>
+        <View style={styles.contentContainer}>
+          <Button
+            title="Orders"
+            onPress={() => navigation.navigate('CUSTOMER_ORDERS_STACK')}
+          />
+        </View>
+        <View style={styles.contentContainer}>
+          <Button title="Seach" onPress={() => navigation.navigate('SEARCH')} />
+        </View>
+        <View style={styles.contentContainer}>
+          <Button
+            title="Settings"
+            onPress={() => navigation.navigate('CUSTOMER_SETTINGS_STACK')}
+          />
+        </View>
+      </SafeAreaView>
     </>
   );
 };

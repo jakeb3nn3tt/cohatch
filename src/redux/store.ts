@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { persistReducer, persistStore } from 'redux-persist';
+import nearSalesReducer, { NearSalesReducer } from './reducers/near-sales';
 import productsReducer, { ProductsReducer } from './reducers/products';
 import salesReducer, { SalesReducer } from './reducers/sales';
 import stripeInfoReducer, { StripeInfoReducer } from './reducers/stripeInfo';
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   products: productsReducer,
   stripeInfo: stripeInfoReducer,
   sales: salesReducer,
+  nearSales: nearSalesReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -31,6 +33,7 @@ export type RootState = {
   products: ProductsReducer;
   stripeInfo: StripeInfoReducer;
   sales: SalesReducer;
+  nearSales: NearSalesReducer;
 };
 
 export { persistor, store };

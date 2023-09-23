@@ -2,20 +2,18 @@ import { useMemo } from 'react';
 import { StyleSheet } from 'react-native';
 
 export const useStyles = () => {
-  // const { colors } = useTheme();
   const styles = useMemo(
     () =>
       StyleSheet.create({
-        topContainer: {
-          position: 'absolute',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          width: '100%',
+        container: {
+          padding: 10,
         },
-        contentContainer: {
+        searchInput: {
           backgroundColor: '#FFF',
-          padding: 2,
+          borderWidth: 1,
+          borderColor: '#CCC',
           borderRadius: 10,
+          padding: 10,
         },
       }),
     [],
