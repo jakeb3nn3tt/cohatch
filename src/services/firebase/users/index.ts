@@ -18,14 +18,8 @@ export const createNewAccount = async (
   role: UserRole,
   address: UserAddress,
 ) => {
-  let stripeId;
-  if (role === UserRole.CUSTOMER) {
-    const { data } = await createStripeCustomer({ email, name });
-    stripeId = data;
-  } else {
-    const { data } = await createStripeSeller({ email });
-    stripeId = data;
-  }
+  const { data } = await createStripeCustomer({ email, name });
+  const customerStripeId = data;
   const newAuthUser = await auth().createUserWithEmailAndPassword(
     email,
     password,
@@ -36,12 +30,19 @@ export const createNewAccount = async (
     email,
     name,
     role,
-    stripeId,
+    customerStripeId,
     address,
   };
   await usersCollection.doc(id).set(newUser);
   await deleteUserFCMToken();
   return { ...newUser, password };
+};
+
+export const activateSellerUser = async () => {
+  const user = store.getState().user;
+  const { data } = await createStripeSeller({ email: user?.email });
+  const sellerStripeId = data;
+  await usersCollection.doc(user?.id).update({ sellerStripeId });
 };
 
 export const getRandomUserId = () => {

@@ -1,6 +1,7 @@
 export enum UserRole {
   SELLER = 'SELLER',
   CUSTOMER = 'CUSTOMER',
+  DEVELIVERY_PERSON = 'DEVELIVERY_PERSON',
 }
 
 export type UserLocation = {
@@ -45,7 +46,8 @@ export type PaymentMethod = {
 
 export type User = {
   id: string;
-  stripeId: string;
+  customerStripeId: string;
+  sellerStripeId: string;
   email: string;
   password: string;
   role?: UserRole;
