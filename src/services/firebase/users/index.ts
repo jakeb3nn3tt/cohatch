@@ -40,7 +40,7 @@ export const createNewAccount = async (
     address,
   };
   await usersCollection.doc(id).set(newUser);
-  // await deleteUserFCMToken();
+  await deleteUserFCMToken();
   return { ...newUser, password };
 };
 
@@ -51,34 +51,34 @@ export const getRandomUserId = () => {
 export const saveUserFCMToken = (notificationToken?: string) => {
   const userId = store.getState().user?.id;
   if (notificationToken?.length && userId) {
-    usersCollection.doc(userId).set({ notificationToken }, { merge: true });
+    usersCollection.doc(userId).update({ notificationToken });
   }
 };
 
-// export const deleteUserFCMToken = async () => {
-//   try {
-//     const userId = store.getState().user?.id;
-//     if (userId) {
-//       await usersCollection.doc(userId).update({
-//         notificationToken: firestore.FieldValue.delete(),
-//       });
-//     }
-//   } catch (error) {
-//     // console.log('error', error);
-//   }
-// };
+export const deleteUserFCMToken = async () => {
+  try {
+    const userId = store.getState().user?.id;
+    if (userId) {
+      await usersCollection.doc(userId).update({
+        notificationToken: firestore.FieldValue.delete(),
+      });
+    }
+  } catch (error) {
+    // console.log('error', error);
+  }
+};
 
 export const login = async (email: string, password: string) => {
   const signedInUser = await auth().signInWithEmailAndPassword(email, password);
   const id = signedInUser.user.uid;
   const userSnapshot = await usersCollection.doc(id).get();
-  // await deleteUserFCMToken();
+  await deleteUserFCMToken();
   return { ...userSnapshot.data(), password } as User;
 };
 
 export const signOut = async () => {
   try {
-    // await deleteUserFCMToken();
+    await deleteUserFCMToken();
     await auth().signOut();
   } catch (error) {
     console.log('error', error);

@@ -8,6 +8,7 @@ import { SellerProductsStackParamList } from '../../navigation/routes';
 import { saveProduct } from '../../services/firebase/products';
 import { loadSellerProducts } from '../../services/loaders/seller';
 import { Product } from '../../types/product';
+import { handleError } from '../../utils/error-handler';
 import { useStyles } from './styles';
 
 type Props = {
@@ -31,7 +32,7 @@ const SellerProductListItem = ({ product }: Props) => {
       await saveProduct(newProduct);
       await loadSellerProducts();
     } catch (error) {
-      console.log('error', error);
+      handleError(error);
     }
     setLoading(false);
   };

@@ -7,6 +7,7 @@ import Text from '../../components/text';
 import { LoginStackParamList } from '../../navigation/routes';
 import { setUser } from '../../redux/reducers/user';
 import { login } from '../../services/firebase/users';
+import { handleError } from '../../utils/error-handler';
 
 type Props = NativeStackScreenProps<LoginStackParamList, 'LOGIN'>;
 
@@ -22,7 +23,18 @@ const Login = ({ navigation }: Props) => {
       const user = await login(email, password);
       dispatch(setUser(user));
     } catch (error) {
-      console.log('error', error);
+      handleError(error);
+    }
+    setLoading(false);
+  };
+
+  const doLogin = async (loginEmail: string) => {
+    setLoading(true);
+    try {
+      const user = await login(loginEmail, '123456');
+      dispatch(setUser(user));
+    } catch (error) {
+      handleError(error);
     }
     setLoading(false);
   };
@@ -47,6 +59,17 @@ const Login = ({ navigation }: Props) => {
           autoCapitalize="none"
         />
       </View>
+      <Button title="Login" onPress={onLogin} disabled={loading} />
+      <Button
+        title="Login as Customer"
+        onPress={() => doLogin('customer@customer.com')}
+        disabled={loading}
+      />
+      <Button
+        title="Login as Seller"
+        onPress={() => doLogin('seller@seller.com')}
+        disabled={loading}
+      />
       <Button title="Login" onPress={onLogin} disabled={loading} />
       <Text>Sign up</Text>
       <Button

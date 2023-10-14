@@ -12,6 +12,7 @@ import {
 } from '../../navigation/routes';
 import { RootState } from '../../redux/store';
 import { UserRole } from '../../types/user';
+import { handleError } from '../../utils/error-handler';
 import { signOutUser } from '../../utils/user';
 
 type Props = NativeStackScreenProps<
@@ -29,7 +30,7 @@ const Settings = ({ navigation }: Props) => {
     try {
       await signOutUser();
     } catch (error) {
-      console.log('error', error);
+      handleError(error);
     }
     setLoading(false);
   };

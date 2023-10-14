@@ -51,4 +51,5 @@ export type User = {
   role?: UserRole;
   name?: string;
   address?: UserAddress;
+  notificationToken?: UserAddress;
 };

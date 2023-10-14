@@ -1,5 +1,7 @@
 // import Toast from 'react-native-toast-message';
 
+import { showToast } from './toast';
+
 export class KnownError {
   code: string;
   message?: string;
@@ -25,9 +27,10 @@ export const getErrorMessage = (error: any) => {
   return ERROR_MAP[error.code];
 };
 
-export const handleError = (error: any) => {
+export const handleError = (error: any, message?: string) => {
   console.log('error', error);
   let toastMessage =
+    message ||
     'Something went wrong. Please check your network connection and try again.';
   if (error instanceof KnownError && error.message) {
     toastMessage = error.message;
@@ -37,9 +40,5 @@ export const handleError = (error: any) => {
       toastMessage = errorMessage;
     }
   }
-  console.log('toastMessage', toastMessage);
-  // Toast.show({
-  //   type: 'info',
-  //   text1: toastMessage,
-  // });
+  showToast(toastMessage);
 };

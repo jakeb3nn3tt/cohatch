@@ -8,6 +8,7 @@ import Text from '../../components/text';
 import { LoginStackParamList } from '../../navigation/routes';
 import { createNewAccount } from '../../services/firebase/users';
 import { UserAddress, UserRole } from '../../types/user';
+import { handleError } from '../../utils/error-handler';
 
 type Props = NativeStackScreenProps<LoginStackParamList, 'CUSTOMER_SIGNUP'>;
 
@@ -28,7 +29,7 @@ const CustomerSignup = ({ navigation }: Props) => {
       await createNewAccount(email, name, password, UserRole.CUSTOMER, address);
       navigation.goBack();
     } catch (error) {
-      console.log('error', error);
+      handleError(error);
     }
     setLoading(false);
   };

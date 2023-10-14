@@ -4,6 +4,7 @@ import Config from 'react-native-config';
 import Geocoder from 'react-native-geocoding';
 import MapView, { MapPressEvent, Marker } from 'react-native-maps';
 import { UserAddress, UserLocation } from '../../types/user';
+import { handleError } from '../../utils/error-handler';
 import Input from '../input';
 import Text from '../text';
 import { useStyles } from './styles';
@@ -42,8 +43,9 @@ const AddressSelector = ({ currentAddress, onChange }: Props) => {
         setAddress(newFormattedAddress);
         setFormattedAddress(newFormattedAddress);
       }
+      throw new Error('Address not found');
     } catch (error) {
-      console.log('error', error);
+      handleError(error, 'Address not found');
     }
     setLoading(false);
   };
@@ -60,7 +62,7 @@ const AddressSelector = ({ currentAddress, onChange }: Props) => {
         setFormattedAddress(newFormattedAddress);
       }
     } catch (error) {
-      console.log('error', error);
+      handleError(error, 'Address not found');
     }
     setLoading(false);
   };

@@ -8,6 +8,7 @@ import Text from '../../components/text';
 import { RootState } from '../../redux/store';
 import { saveUser } from '../../services/firebase/users';
 import { User, UserAddress } from '../../types/user';
+import { handleError } from '../../utils/error-handler';
 
 const MyLocation = () => {
   const user = useSelector((state: RootState) => state.user as User);
@@ -23,7 +24,7 @@ const MyLocation = () => {
       });
       setModalOpen(false);
     } catch (error) {
-      console.log('error', error);
+      handleError(error);
     }
     setLoading(false);
   };
