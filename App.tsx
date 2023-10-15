@@ -7,8 +7,7 @@ import NavigationContainer from './src/navigation';
 import { persistor, store } from './src/redux/store';
 import { toastConfig } from './src/utils/toast';
 
-const STRIPE_KEY =
-  'pk_test_51NhcqkBf6uI5vbOWl9BxsZMb6VXuJMOrJpLYwKBJzlkqRw7V14fapmtAVktveK3PCai7mfyct21MvPOWdLmRnAQz00U7j6uUSv';
+const STRIPE_KEY = STRIPE_KEY;
 
 const App = () => {
   return (
